@@ -1,22 +1,45 @@
 import { formatDateTime } from "./utils/validationUtils";
 import '../src/css/ScheduledMeetings.css';
+import { Clock, Calendar, AlertCircle } from 'lucide-react';
 
 const ScheduledMeetings = ({ meetings }) => {
   return (
     <div className="scheduled-meetings">
       <h2>Scheduled Meetings</h2>
-      {meetings.length === 0 ? <p>No meetings scheduled.</p> : (
-        <ul>
-          {meetings.map((meeting, index) => (
-            <li key={index} className="meeting-item">
-              <h5>{meeting.title}</h5>
-              <p><strong>Start:</strong> {formatDateTime(meeting.startDate, meeting.startTime)}</p>
-              <p><strong>End:</strong> {formatDateTime(meeting.endDate, meeting.endTime)}</p>
-              <p><strong>Duration:</strong> {meeting.duration}</p>
-              {meeting.note && <p><strong>Note:</strong> {meeting.note}</p>}
-            </li>
-          ))}
-        </ul>
+      {meetings.length === 0 ? 
+      <div className="no-meetings">
+          <AlertCircle size={24} />
+          <p>No meetings scheduled.</p>
+      </div> : (
+        <ul className="meetings-list">
+        {meetings.map((meeting, index) => (
+          <li key={index} className="meeting-item">
+            <div className="meeting-header">
+              <h3>{meeting.title}</h3>
+              <span className="duration-badge">{meeting.duration}</span>
+            </div>
+            
+            <div className="meeting-details">
+              <div className="meeting-detail">
+                <Clock size={16} className="icon" />
+                <p><strong>Start:</strong> {formatDateTime(meeting.startDate, meeting.startTime)}</p>
+              </div>
+              
+              <div className="meeting-detail">
+                <Calendar size={16} className="icon" />
+                <p><strong>End:</strong> {formatDateTime(meeting.endDate, meeting.endTime)}</p>
+              </div>
+              
+              {/* {meeting.note && (
+                <div className="meeting-note">
+                  <MessageSquare size={16} className="icon" />
+                  <p><strong>Note:</strong> {meeting.note}</p>
+                </div>
+              )} */}
+            </div>
+          </li>
+        ))}
+      </ul>
       )}
     </div>
   );

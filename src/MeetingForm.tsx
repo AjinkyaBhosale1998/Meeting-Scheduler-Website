@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import '../src/css/MeetingForm.css';
-import { calculateDuration, validateMeetingData } from "../src/utils/validationUtils";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { calculateDuration, calculateEndTime, validateMeetingData } from "../src/utils/validationUtils";
 
 const MeetingForm = ({ onSchedule }) => {
   const [title, setTitle] = useState("");
@@ -20,82 +22,87 @@ const MeetingForm = ({ onSchedule }) => {
     return now.toTimeString().slice(0, 5);
   };
 
-  // Function to calculate end time (30 mins after start time)
-  const calculateEndTime = () => {
-    const now = new Date();
-    now.setMinutes(now.getMinutes() + 30); // Add 30 mins
-    return now.toTimeString().slice(0, 5);
-  };
-
   // Set default values on component mount
   useEffect(() => {
     const today = getTodayDate();
     const nowTime = getCurrentTime();
-    const endTime = calculateEndTime();
+    const { endDate, endTime } = calculateEndTime(today, nowTime);
 
     setStartDate(today);
     setStartTime(nowTime);
-    setEndDate(today);
+    setEndDate(endDate);
     setEndTime(endTime);
     setDuration("30 min");
   }, []);
 
-  // Update duration dynamically when end time changes
+  // Automatically update end date and time when start date or start time changes
+  useEffect(() => {
+    if (startDate && startTime) {
+      const { endDate, endTime } = calculateEndTime(startDate, startTime);
+      setEndDate(endDate);
+      setEndTime(endTime);
+    }
+  }, [startDate, startTime]);
+
+  // Recalculate duration dynamically
   useEffect(() => {
     if (startDate && startTime && endDate && endTime) {
-      const newDuration = calculateDuration(startDate, startTime, endDate, endTime);
-      setDuration(newDuration);
+      setDuration(calculateDuration(startDate, startTime, endDate, endTime));
     }
   }, [startDate, startTime, endDate, endTime]);
 
   const scheduleMeeting = () => {
     const validationError = validateMeetingData(title, startDate, startTime, endDate, endTime);
-    if (validationError) {
-      setError(validationError);
-      return;
+    setError(validationError);
+
+    if (!validationError) {
+      onSchedule({ title, startDate, startTime, endDate, endTime, duration });
+
+      // Show success toast when the meeting is scheduled
+      toast.success("Meeting scheduled successfully!", {
+        position: "top-right",
+        autoClose: 3000, // Close after 3 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      setTitle(""); // Clear title after scheduling
     }
-
-    setError(""); // Clear any previous errors
-
-    onSchedule({ title, startDate, startTime, endDate, endTime, duration });
-
-    setTitle("");
-    setDuration("");
   };
 
   return (
     <div className="meeting-form">
       <h2>Schedule a Meeting</h2>
 
-      {error && <p className="error-text">{error}</p>}
-
-      <h5>Agenda Title</h5>
-      <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+      <h3>Agenda Title</h3>
+      <input className="inputboxtext" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
 
       <div className="form-row">
         <div>
-          <h6>Start Date</h6>
-          <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+          <h3>Start Date</h3>
+          <input type="date" value={startDate} min={getTodayDate()} onChange={(e) => setStartDate(e.target.value)} />
         </div>
         <div>
-          <h6>Start Time</h6>
+          <h3>Start Time</h3>
           <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
         </div>
       </div>
 
       <div className="form-row">
         <div>
-          <h6>End Date</h6>
-          <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+          <h3>End Date</h3>
+          <input type="date" value={endDate} min={startDate} onChange={(e) => setEndDate(e.target.value)} />
         </div>
         <div>
-          <h6>End Time</h6>
+          <h3>End Time</h3>
           <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
         </div>
       </div>
 
       <h5>Duration</h5>
-      <input type="text" value={duration} disabled />
+      <input type="text" value={error ? error : duration} className={`inputboxtext ${error ? "error" : ""}`} disabled />
 
       <button className="schedule-btn" onClick={scheduleMeeting}>Schedule</button>
     </div>

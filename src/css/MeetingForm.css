@@ -1,49 +1,66 @@
 .meeting-form {
-    flex: 1;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    display: grid;
-    gap: 10px;
-  }
-  
-  .meeting-form h2 {
-    text-align: center;
-    margin-bottom: 15px;
-  }
-  
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  
-  .form-row input,
-  textarea {
-    width: 100%;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  .schedule-btn {
-    padding: 10px;
-    margin-top: 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-  }
-  
-  .schedule-btn:hover {
-    background-color: #0056b3;
-  }
-  
-  .error-text {
-    color: red;
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-  
+  flex: 1;
+  padding: 20px;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  display: grid;
+  gap: 5px;
+}
+
+.inputboxtext {
+  display: flex;
+  height: 40px;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  font-size: 16px;
+  padding-left: 10px; 
+}
+
+.meeting-form h2 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr;
+  margin: 10px;
+  gap: 100px;
+}
+
+.form-row input,
+textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #007bff;
+}
+
+.schedule-btn {
+  padding: 10px;
+  margin-top: 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.schedule-btn:hover {
+  background-color: #0056b3;
+}
+
+.error-text {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  border: 1px solid red;
+  background-color: #ffe6e6;
+}
