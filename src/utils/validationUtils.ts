@@ -18,7 +18,7 @@ export const isNumeric = (value: string): boolean => {
     const selectedEndDateTime = new Date(`${endDate}T${endTime}`);
   
     if (selectedStartDateTime.getTime() < now.getTime()) {
-      return "Start date and time cannot be in the past.";
+      return "Start date / time cannot be in the past.";
     }
   
     if (selectedEndDateTime.getTime() <= selectedStartDateTime.getTime()) {
@@ -58,7 +58,7 @@ export const calculateDuration = (startDate: string, startTime: string, endDate:
       year: "2-digit", 
       hour: "2-digit", 
       minute: "2-digit",
-      hour12: false 
+      hour12: true 
     });
   };
 

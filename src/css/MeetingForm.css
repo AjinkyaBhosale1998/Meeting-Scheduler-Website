@@ -1,66 +1,221 @@
 .meeting-form {
   flex: 1;
-  padding: 20px;
-  margin: 20px auto;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  display: grid;
-  gap: 5px;
-}
-
-.inputboxtext {
+  padding: 24px;
+  margin: 0;
+  border: 1px solid #2e2e33;
+  border-radius: 12px;
+  background-color: #1e1e24;
   display: flex;
-  height: 40px;
-  border: 1px solid #007bff;
-  border-radius: 5px;
-  font-size: 16px;
-  padding-left: 10px; 
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .meeting-form h2 {
   text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 16px;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #c8c8cc;
+}
+
+.icon {
+  color: #4995e6;
+}
+
+.inputboxtext {
+  height: 50px;
+  border: 1px solid #3a3a40;
+  border-radius: 8px;
+  font-size: 1rem;
+  padding: 0 16px;
+  background-color: #262729;
+  color: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inputboxtext:focus, 
+input[type="date"]:focus, 
+input[type="time"]:focus {
+  outline: none;
+  border-color: #4995e6;
+  box-shadow: 0 0 0 2px rgba(73, 149, 230, 0.2);
+}
+
+.inputboxtext::placeholder {
+  color: #6c6c74;
 }
 
 .form-row {
   display: grid;
-  grid-template-columns: 1.2fr 1.2fr;
-  margin: 10px;
+  grid-template-columns: 1fr 1fr;
   gap: 100px;
+  /* padding: 0px; */
+  margin-right: 30px;
 }
 
-.form-row input,
-textarea {
+.form-row input {
   width: 100%;
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #007bff;
+  height: 48px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid #3a3a40;
+  background-color: #262729;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="date"], 
+input[type="time"] {
+  cursor: pointer;
+}
+
+.duration-display {
+  position: relative;
+}
+
+.duration-display .inputboxtext {
+  padding-left: 40px;
+  min-width: 270px; 
+}
+
+.error-icon, 
+.success-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.error-icon {
+  color: #e74c3c;
+}
+
+.success-icon {
+  color: #2ecc71;
 }
 
 .schedule-btn {
-  padding: 10px;
-  margin-top: 15px;
-  background-color: #007bff;
+  /* display: block; */
+  /* margin: 18px auto; */
+  padding: 16px;
+  margin-top: 20px;
+  background-color: #4995e6;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   width: 100%;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .schedule-btn:hover {
-  background-color: #0056b3;
+  background-color: #3275c4;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(73, 149, 230, 0.3);
 }
 
-.error-text {
-  color: red;
-  font-size: 14px;
-  margin-bottom: 10px;
+.schedule-btn:active {
+  transform: translateY(0);
+}
+
+.schedule-btn.submitting {
+  background-color: #3275c4;
+  opacity: 0.8;
+  cursor: not-allowed;
 }
 
 .error {
-  color: red;
-  font-weight: bold;
-  border: 1px solid red;
-  background-color: #ffe6e6;
+  color: #ffffff;
+  font-weight: normal;
+  border: 1px solid #e74c3c;
+  background-color: rgba(231, 76, 60, 0.1);
+}
+
+/* Animation for button */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(73, 149, 230, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(73, 149, 230, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(73, 149, 230, 0); }
+}
+
+.schedule-btn:focus {
+  animation: pulse 1.5s infinite;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .meeting-form {
+    padding: 16px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .meeting-form-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .meeting-form {
+    width: 100%;
+  }
+
+  .meeting-form input,
+  .meeting-form select,
+  .meeting-form button {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  .schedule-btn {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+/* For very small screens (e.g., 400px) */
+@media (max-width: 480px) {
+  .meeting-form-container {
+    padding: 5px;
+  }
+
+  .meeting-form h2 {
+    font-size: 1.2rem;
+  }
+
+  .meeting-form input,
+  .meeting-form select {
+    font-size: 0.8rem;
+  }
+
+  .schedule-btn {
+    font-size: 0.9rem;
+  }
 }

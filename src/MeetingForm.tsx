@@ -3,6 +3,7 @@ import '../src/css/MeetingForm.css';
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { calculateDuration, calculateEndTime, validateMeetingData } from "../src/utils/validationUtils";
+import { Calendar, Clock, AlertCircle, CheckCircle, PhoneCall } from 'lucide-react';
 
 const MeetingForm = ({ onSchedule }) => {
   const [title, setTitle] = useState("");
@@ -12,6 +13,7 @@ const MeetingForm = ({ onSchedule }) => {
   const [endTime, setEndTime] = useState("");
   const [duration, setDuration] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Function to get today's date in YYYY-MM-DD format
   const getTodayDate = () => new Date().toISOString().split("T")[0];
@@ -56,55 +58,136 @@ const MeetingForm = ({ onSchedule }) => {
     setError(validationError);
 
     if (!validationError) {
-      onSchedule({ title, startDate, startTime, endDate, endTime, duration });
+      setIsSubmitting(true);
+      
+      // Simulate a brief loading state for better UX
+      setTimeout(() => {
+        onSchedule({ title, startDate, startTime, endDate, endTime, duration });
+        
+        // Show success toast when the meeting is scheduled
+        toast.success("Meeting scheduled successfully!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
 
-      // Show success toast when the meeting is scheduled
-      toast.success("Meeting scheduled successfully!", {
+        setTitle(""); // Clear title after scheduling
+        setIsSubmitting(false);
+      }, 600);
+    } else {
+      // Show error toast for validation error
+      toast.error(validationError, {
         position: "top-right",
-        autoClose: 3000, // Close after 3 seconds
+        autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
       });
-
-      setTitle(""); // Clear title after scheduling
     }
   };
 
   return (
     <div className="meeting-form">
-      <h2>Schedule a Meeting</h2>
+      <h2><span style={{ color: "#4995e6" }}>Quick</span> Connect <PhoneCall color="#4995e6"/></h2>
 
-      <h3>Agenda Title</h3>
-      <input className="inputboxtext" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+      <div className="form-group">
+        <label htmlFor="title">Agenda Title</label>
+        <input 
+          id="title"
+          className={`inputboxtext ${error && !title ? "error" : ""}`} 
+          type="text" 
+          value={title} 
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Enter meeting title..."
+        />
+        {/* {error && !title && <div className="error">Agenda title is required.</div>} */}
+      </div>
 
       <div className="form-row">
-        <div>
-          <h3>Start Date</h3>
-          <input type="date" value={startDate} min={getTodayDate()} onChange={(e) => setStartDate(e.target.value)} />
+        <div className="form-group">
+          <label htmlFor="startDate">
+            <Calendar size={16} className="icon" />
+            Start Date
+          </label>
+          <input 
+            id="startDate"
+            type="date" 
+            value={startDate} 
+            min={getTodayDate()} 
+            onChange={(e) => setStartDate(e.target.value)} 
+          />
         </div>
-        <div>
-          <h3>Start Time</h3>
-          <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+        <div className="form-group">
+          <label htmlFor="startTime">
+            <Clock size={16} className="icon" />
+            Start Time
+          </label>
+          <input 
+            id="startTime"
+            type="time" 
+            value={startTime} 
+            onChange={(e) => setStartTime(e.target.value)} 
+          />
         </div>
       </div>
 
       <div className="form-row">
-        <div>
-          <h3>End Date</h3>
-          <input type="date" value={endDate} min={startDate} onChange={(e) => setEndDate(e.target.value)} />
+        <div className="form-group">
+          <label htmlFor="endDate">
+            <Calendar size={16} className="icon" />
+            End Date
+          </label>
+          <input 
+            id="endDate"
+            type="date" 
+            value={endDate} 
+            min={startDate} 
+            onChange={(e) => setEndDate(e.target.value)} 
+          />
         </div>
-        <div>
-          <h3>End Time</h3>
-          <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
+        <div className="form-group">
+          <label htmlFor="endTime">
+            <Clock size={16} className="icon" />
+            End Time
+          </label>
+          <input 
+            id="endTime"
+            type="time" 
+            value={endTime} 
+            onChange={(e) => setEndTime(e.target.value)} 
+          />
         </div>
       </div>
 
-      <h5>Duration</h5>
-      <input type="text" value={error ? error : duration} className={`inputboxtext ${error ? "error" : ""}`} disabled />
+      <div className="form-group">
+        <label htmlFor="duration">Duration</label>
+        <div className="duration-display">
+          {error ? (
+            <AlertCircle size={16} className="error-icon" />
+          ) : (
+            <CheckCircle size={16} className="success-icon" />
+          )}
+          <input 
+            id="duration"
+            type="text" 
+            value={error && error !== "Agenda Title is required." ? error : duration}
+            className={`inputboxtext ${error && error !== "Agenda Title is required." ? "error" : ""}`}
+            disabled 
+          />
+        </div>
+      </div>
 
-      <button className="schedule-btn" onClick={scheduleMeeting}>Schedule</button>
+      <button 
+        className={`schedule-btn ${isSubmitting ? 'submitting' : ''}`} 
+        onClick={scheduleMeeting}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? 'Scheduling...' : 'Schedule'}
+      </button>
     </div>
   );
 };
