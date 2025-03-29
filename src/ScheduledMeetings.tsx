@@ -5,7 +5,7 @@ import { Clock, Calendar, AlertCircle, ListChecks } from 'lucide-react';
 const ScheduledMeetings = ({ meetings }) => {
   return (
     <div className="scheduled-meetings">
-      <h2><span style={{ color: "#4995e6" }}>Scheduled</span> Meetings <ListChecks color="#4995e6"/></h2>
+      <h2><span style={{ color: "#4995e6",  }}>Scheduled</span> Meetings <ListChecks color="#4995e6"/></h2>
       {meetings.length === 0 ? 
       <div className="no-meetings">
           <AlertCircle size={24} />

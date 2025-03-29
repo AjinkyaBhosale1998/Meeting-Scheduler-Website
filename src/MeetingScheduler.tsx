@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 // import CalendarView from "./CalendarView";
 import MeetingForm from "./MeetingForm";
 import ScheduledMeetings from "./ScheduledMeetings";
+import './css/mediaQueries.css';
 
 interface Meeting {
   title: string;
@@ -24,7 +25,7 @@ const MeetingScheduler = () => {
   };
 
   return (
-    <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+    <div className="container" style={{ display: "flex", width: "100vw", height: "100vh" }}>
       {/* <CalendarView selectedDate={selectedDate} setSelectedDate={setSelectedDate} /> */}
       <MeetingForm onSchedule={handleScheduleMeeting} />
       <ToastContainer />

@@ -60,7 +60,6 @@ const MeetingForm = ({ onSchedule }) => {
     if (!validationError) {
       setIsSubmitting(true);
       
-      // Simulate a brief loading state for better UX
       setTimeout(() => {
         onSchedule({ title, startDate, startTime, endDate, endTime, duration });
         
@@ -74,7 +73,7 @@ const MeetingForm = ({ onSchedule }) => {
           draggable: true,
         });
 
-        setTitle(""); // Clear title after scheduling
+        setTitle(""); 
         setIsSubmitting(false);
       }, 600);
     } else {
