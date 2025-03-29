@@ -2,7 +2,11 @@ import { formatDateTime } from "./utils/validationUtils";
 import '../src/css/ScheduledMeetings.css';
 import { Clock, Calendar, AlertCircle, ListChecks } from 'lucide-react';
 
-const ScheduledMeetings = ({ meetings }) => {
+interface ScheduledMeetingsProps {
+  meetings: any[];
+}
+
+const ScheduledMeetings: React.FC<ScheduledMeetingsProps> = ({ meetings }) => {
   return (
     <div className="scheduled-meetings">
       <h2><span style={{ color: "#4995e6",  }}>Scheduled</span> Meetings <ListChecks color="#4995e6"/></h2>
@@ -12,7 +16,7 @@ const ScheduledMeetings = ({ meetings }) => {
           <p>No meetings scheduled.</p>
       </div> : (
         <ul className="meetings-list">
-        {meetings.map((meeting, index) => (
+        {meetings.map((meeting, index: number) => (
           <li key={index} className="meeting-item">
             <div className="meeting-header">
               <h3>{meeting.title}</h3>

@@ -5,14 +5,27 @@ import "react-toastify/dist/ReactToastify.css";
 import { calculateDuration, calculateEndTime, validateMeetingData } from "../src/utils/validationUtils";
 import { Calendar, Clock, AlertCircle, CheckCircle, PhoneCall } from 'lucide-react';
 
-const MeetingForm = ({ onSchedule }) => {
+interface Meeting {
+  title: string;
+  startDate: string;
+  startTime: string;
+  endDate: string;
+  endTime: string;
+  duration: string;
+}
+
+interface MeetingFormProps {
+  onSchedule: (meeting: Meeting) => void;
+}
+
+const MeetingForm: React.FC<MeetingFormProps> = ({ onSchedule }) => {
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endDate, setEndDate] = useState("");
   const [endTime, setEndTime] = useState("");
   const [duration, setDuration] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Function to get today's date in YYYY-MM-DD format
@@ -55,7 +68,7 @@ const MeetingForm = ({ onSchedule }) => {
 
   const scheduleMeeting = () => {
     const validationError = validateMeetingData(title, startDate, startTime, endDate, endTime);
-    setError(validationError);
+    setError(validationError || '');
 
     if (!validationError) {
       setIsSubmitting(true);
