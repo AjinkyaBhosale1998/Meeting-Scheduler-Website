@@ -5,16 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import MeetingForm from "./MeetingForm";
 import ScheduledMeetings from "./ScheduledMeetings";
 import './css/mediaQueries.css';
+import { Meeting } from "./types";
 
-interface Meeting {
-  title: string;
-  startDate: string;
-  startTime: string;
-  endDate: string;
-  endTime: string;
-  duration: string;
-  note: string;
-}
 
 const MeetingScheduler = () => {
   const [meetings, setMeetings] = useState<Meeting[]>([]);

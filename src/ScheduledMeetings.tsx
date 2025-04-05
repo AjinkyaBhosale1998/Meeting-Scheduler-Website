@@ -1,9 +1,9 @@
 import { formatDateTime } from "./utils/validationUtils";
 import '../src/css/ScheduledMeetings.css';
 import { Clock, Calendar, AlertCircle, ListChecks } from 'lucide-react';
-
+import { Meeting } from "./types";
 interface ScheduledMeetingsProps {
-  meetings: any[];
+  meetings: Meeting[];
 }
 
 const ScheduledMeetings: React.FC<ScheduledMeetingsProps> = ({ meetings }) => {
@@ -16,7 +16,7 @@ const ScheduledMeetings: React.FC<ScheduledMeetingsProps> = ({ meetings }) => {
           <p>No meetings scheduled.</p>
       </div> : (
         <ul className="meetings-list">
-        {meetings.map((meeting, index: number) => (
+        {meetings.map((meeting:Meeting, index: number) => (
           <li key={index} className="meeting-item">
             <div className="meeting-header">
               <h3>{meeting.title}</h3>
