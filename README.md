@@ -1,3 +1,6 @@
+# Meeting Scheduler Website
+![Smart Meeting Scheduler](https://github.com/user-attachments/assets/8d4dfd07-f387-48b4-9d76-69fe51b98f2b)
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
